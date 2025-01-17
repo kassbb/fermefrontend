@@ -1,0 +1,17 @@
+/* Profil utilisateur */
+img {
+  transition: transform 0.3s ease-in-out;
+}
+img:hover {
+  transform: scale(1.1);
+}
+
+/* Menu */
+li {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+a {
+  text-decoration: none;
+}
