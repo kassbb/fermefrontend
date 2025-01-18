@@ -1,77 +1,83 @@
-<div class="p-4 md:mx-5 md:shadow-md md:rounded-lg md:bg-base-100 min-h-screen">
-  <div class="mt-5 flex flex-col gap-4">
-    <h1 class="text-xl md:text-2xl font-bold text-center">Mon Profil</h1>
-    <p class="text-sm text-center font-semibold">
-      Gérez les paramètres de votre profil
+<div class="p-6 md:mx-5 md:shadow-lg md:rounded-xl bg-gray-50 md:bg-white min-h-screen">
+  <!-- Section d'entête -->
+  <div class="mt-5 text-center">
+    <h1 class="text-3xl font-extrabold text-gray-800">Espace Profil</h1>
+    <p class="text-md font-medium text-gray-500 mt-2">
+      Personnalisez vos informations et paramètres
     </p>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 mt-5">
-    <p-card header="Changer de mot de passe" class="mt-10">
-      <div
-        class="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10"
-      >
+
+  <!-- Grille pour gérer le mot de passe et la photo -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+    <!-- Carte pour modifier le mot de passe -->
+    <p-card class="shadow-xl rounded-xl">
+      <div class="flex flex-col items-center gap-6">
         <form
           (ngSubmit)="onReset(password)"
           #password="ngForm"
-          class="flex flex-col gap-6"
+          class="flex flex-col gap-6 w-full px-4"
         >
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-3">
             <label
               for="password"
-              class="text-sm md:text-base font-medium text-gray-700"
-              >Numéro de téléphone</label
+              class="text-base font-semibold text-gray-600"
+              >Nouveau mot de passe</label
             >
             <input
               id="password"
               type="password"
               [(ngModel)]="user.password"
               name="password"
-              class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-              placeholder="changer de password"
+              class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
+              placeholder="Entrez un nouveau mot de passe"
             />
           </div>
-
-          <button class="btn btn-primary mx-auto btn-lg" type="submit">
-            Modifier
+          <button class="btn btn-primary w-full" type="submit">
+            Mettre à jour
           </button>
         </form>
       </div>
     </p-card>
 
-    <p-card header="photo" class="mt-10">
-      <div
-        class="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10"
-      >
+    <!-- Carte pour gérer la photo -->
+    <p-card  class="shadow-xl rounded-xl">
+      <div class="flex flex-col items-center gap-6">
         <img
           [src]="profile.photo"
           alt="Avatar"
-          class="rounded-full w-24 h-24 md:w-36 md:h-36 border-2 border-gray-300"
+          class="rounded-full w-32 h-32 md:w-40 md:h-40 border-4 border-gray-200 shadow-md"
         />
-        <div class="flex flex-col gap-3">
-          <button class="btn btn-primary btn-outline">Changer la photo</button>
-          <button class="btn btn-warning">supprimer</button>
+        <div class="flex flex-col gap-3 w-full">
+          <button class="btn btn-primary btn-outline w-full">
+            Changer la photo
+          </button>
+          <button class="btn btn-warning w-full">Supprimer</button>
         </div>
+        <p class="text-sm text-gray-500 text-center font-medium">
+          Taille recommandée : 256 x 256 pixels.
+        </p>
       </div>
-      <p class="text-xs md:text-sm font-semibold mt-3 text-center">
-        Ajouter votre photo. La taille recommandée est 256 x 256.
-      </p>
     </p-card>
   </div>
 
-  <div class="mt-10 overflow-auto">
-    <h1 class="text-xl md:text-2xl font-bold text-center">
-      Modifier votre profil
-    </h1>
-    <p-card header="Formulaire de profil" class="mt-5 shadow-md mx-auto w-full">
+  <!-- Formulaire pour modifier les informations -->
+  <div class="mt-10">
+    <h2 class="text-2xl font-bold text-gray-800 text-center">
+      Mise à Jour du Profil
+    </h2>
+    <p-card
+      header="Informations Personnelles"
+      class="mt-6 shadow-xl rounded-xl mx-auto w-full md:w-2/3"
+    >
       <form
         (ngSubmit)="onSubmit()"
         #profileForm="ngForm"
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-6 px-4"
       >
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-3">
           <label
             for="address"
-            class="text-sm md:text-base font-medium text-gray-700"
+            class="text-base font-semibold text-gray-600"
             >Adresse</label
           >
           <input
@@ -79,29 +85,29 @@
             type="text"
             [(ngModel)]="profile.address"
             name="address"
-            class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-            placeholder="Entrez votre adresse"
+            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
+            placeholder="Entrez votre adresse complète"
           />
         </div>
 
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-3">
           <label
             for="phone_number"
-            class="text-sm md:text-base font-medium text-gray-700"
-            >Numéro de téléphone</label
+            class="text-base font-semibold text-gray-600"
+            >Numéro de Téléphone</label
           >
           <input
             id="phone_number"
             type="tel"
             [(ngModel)]="profile.phone_number"
             name="phone_number"
-            class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-            placeholder="Entrez votre numéro de téléphone"
+            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
+            placeholder="Entrez votre numéro"
           />
         </div>
 
-        <button class="btn btn-primary mx-auto btn-lg" type="submit">
-          Modifier
+        <button class="btn btn-primary w-full btn-lg" type="submit">
+          Sauvegarder
         </button>
       </form>
     </p-card>

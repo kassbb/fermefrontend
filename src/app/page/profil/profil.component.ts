@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserProfile } from '../../model/modelUser';
+
 import { User } from '../../model/User';
 import { AvatarModule } from 'primeng/avatar';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { UserProfile } from '../../model/Production';
 
 @Component({
   selector: 'app-profil',

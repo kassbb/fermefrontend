@@ -1,53 +1,58 @@
-<div class="flex flex-col w-full h-screen bg-base-200 text-base-content">
+<div
+  class="flex flex-col w-full h-screen bg-base-200 text-base-content shadow-lg"
+>
   <!-- Barre de navigation -->
   <div
-    class="flex items-center justify-between p-4 border-b border-base-300 sticky bg-base-100"
+    class="flex items-center justify-between p-5 bg-primary text-primary-content shadow-md"
   >
     <div class="flex items-center">
-      <span
-        class="bg-primary text-primary-content text-lg md:text-xl font-semibold p-3 rounded-md"
-      >
-        Ferme
+      <span class="text-lg md:text-xl font-bold tracking-wide">
+        Ferme Dashboard
       </span>
-      <h1 class="text-lg md:text-xl font-semibold ml-2">Dashboard</h1>
     </div>
   </div>
 
   <!-- Profil utilisateur -->
   <div
-    class="flex flex-col items-center justify-center p-4 border-b border-base-300 mt-12 md:mt-20 bg-base-100"
+    class="flex flex-col items-center justify-center p-6 border-b border-base-300 bg-base-100"
   >
     <img
       src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
       alt="Avatar"
-      class="rounded-full w-28 h-28 border-2 border-base-300"
+      class="rounded-full w-24 h-24 border-4 border-primary shadow-lg"
     />
-    <div class="text-center mt-3">
-      <h1 class="text-lg md:text-xl font-semibold text-base-content">
-        John Doe
-      </h1>
-      <p class="text-sm md:text-base text-base-content/60">{{ role }}</p>
+    <div class="text-center mt-4">
+      <h1 class="text-lg md:text-xl font-semibold text-primary">{{ user }}</h1>
+      <p class="text-sm md:text-base text-base-content/70 mt-1">
+        {{ activeRoles.join(", ") }}
+      </p>
     </div>
   </div>
 
   <!-- Menu avec liens -->
-  <div class="flex flex-col items-start p-7 gap-3 ">
-    <ul class="w-full p-4">
+  <div class="flex flex-col items-start py-4 px-6 space-y-1 h-auto">
+    <ul class="w-full">
       @for (link of links; track $index) {
       <li
-        class="p-3 flex justify-center gap-4 hover:bg-primary hover:text-primary-content rounded-lg transition-colors"
-        [routerLinkActive]="'bg-primary text-primary-content'"
-        [routerLinkActiveOptions]="{ exact: true }"
+        class="w-full p-3 rounded-lg hover:bg-primary hover:text-primary-content transition-all duration-300 cursor-pointer flex items-center space-x-3 shadow-white justify-center"
       >
         <i [class]="link.icon" class="text-lg"></i>
         <a
           [routerLink]="'/dashboard/' + link.href"
-          class="text-base-content"
+          routerLinkActive="font-bold bg-primary/20 text-primary"
+          class="text-base-content w-full mx-auto"
         >
           {{ link.name }}
         </a>
       </li>
       }
     </ul>
+  </div>
+
+  <!-- Footer -->
+  <div
+    class="mt-auto border-t border-base-300 p-4 text-center text-sm text-base-content/60"
+  >
+    © 2025 Ferme. Tous droits réservés.
   </div>
 </div>
