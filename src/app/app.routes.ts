@@ -7,6 +7,8 @@ import { EntrepriseComponent } from './page/entreprise/entreprise.component';
 
 import { LoginComponent } from './page/auth/login/login.component';
 import { AuthGuard } from './auth.guard';
+import { PoulaiyerComponent } from './page/poulaiyer/poulaiyer.component';
+import { LotComponent } from './page/lot/lot.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,6 +22,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'profil', component: ProfilComponent },
       { path: 'entreprise', component: EntrepriseComponent },
+      { path: 'poulailler', component: PoulaiyerComponent },
+        {path:'poulailler-lot/:id',component:LotComponent}
     ],
   },
 

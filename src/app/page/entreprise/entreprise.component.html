@@ -1,97 +1,221 @@
-<div class="p-4 md:mx-5 md:shadow-md md:rounded-lg md:bg-base-100 min-h-screen">
+<div
+  class="p-4 md:mx-5 md:shadow-lg md:rounded-xl bg-gradient-to-br from-white to-gray-50 min-h-screen"
+>
   <div class="mt-5 flex flex-col gap-4">
-    <h1 class="text-xl md:text-2xl font-bold text-center">Mon entreprise</h1>
-
-    <p class="text-sm text-center font-semibold">
-      Gérez les paramètres de votre Entreprise
+    <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800">
+      {{ entreprise?.name }}
+    </h1>
+    <p class="text-sm text-center font-semibold text-gray-500">
+      Gérez les paramètres de votre entreprise
     </p>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 mt-5">
-    <p-card header="Changer de mot de passe" class="mt-10">
-      <div
-        class="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10"
+
+  <!-- Section pour les informations de base en deux colonnes -->
+  <div class="mt-8">
+    <p-card
+      header="Informations de l'entreprise"
+      class="shadow-lg rounded-xl border border-gray-200 bg-white"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Colonne de gauche -->
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-sm md:text-base font-medium text-gray-700"
+              >Nom de l'entreprise</label
+            >
+            <p
+              class="p-3 bg-gray-50 rounded-lg shadow-sm text-gray-800 font-medium"
+            >
+              {{ entreprise?.name }}
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-sm md:text-base font-medium text-gray-700"
+              >Adresse</label
+            >
+            <p
+              class="p-3 bg-gray-50 rounded-lg shadow-sm whitespace-pre-line text-gray-800 font-medium"
+            >
+              {{ entreprise?.address }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Colonne de droite -->
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-sm md:text-base font-medium text-gray-700"
+              >Numéro de téléphone</label
+            >
+            <p
+              class="p-3 bg-gray-50 rounded-lg shadow-sm text-gray-800 font-medium"
+            >
+              {{ entreprise?.phone_number }}
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-sm md:text-base font-medium text-gray-700"
+              >Email</label
+            >
+            <p
+              class="p-3 bg-gray-50 rounded-lg shadow-sm text-gray-500 font-medium"
+              [ngClass]="entreprise?.email ? '' : 'text-red-600'"
+            >
+              {{ entreprise?.email || "Non renseigné" }}
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-sm md:text-base font-medium text-gray-700"
+              >Site web</label
+            >
+            <p
+              class="p-3 bg-gray-50 rounded-lg shadow-sm text-gray-500 font-medium"
+            >
+              {{ entreprise?.website || "Non renseigné" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Section pour modifier les informations -->
+  <div class="mt-10 overflow-auto">
+    <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800">
+      Modifier les informations
+    </h1>
+    <p-card
+      header="Formulaire de modification"
+      class="mt-8 shadow-lg mx-auto w-full rounded-xl border border-gray-200 bg-white"
+    >
+      <form
+        class="grid grid-cols-1 md:grid-cols-2 gap-6"
+        #entrepriseform="ngForm"
+        (ngSubmit)="onUpdateEntreprise(entrepriseform)"
       >
-        <form class="flex flex-col gap-6">
+        <!-- Colonne de gauche -->
+        <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-2">
             <label
-              for="password"
+              for="name"
+              class="text-sm md:text-base font-medium text-gray-700"
+              >Nom de l'entreprise</label
+            >
+            <input
+              id="name"
+              type="text"
+              name="name"
+              [value]="entreprise.name"
+              [(ngModel)]="entreprise.name"
+              class="p-3 bg-gray-50 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-gray-800 placeholder-gray-400 transition-all duration-300"
+              placeholder="Entrez le nom de l'entreprise"
+              required
+            />
+            <span
+              *ngIf="entrepriseform.submitted && entrepriseform.controls['name']?.errors?.['required']"
+              class="text-red-500 text-sm"
+            >
+              Le nom de l'entreprise est obligatoire.
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label
+              for="address"
+              class="text-sm md:text-base font-medium text-gray-700"
+              >Adresse</label
+            >
+            <textarea
+              id="address"
+              name="address"
+              [value]="entreprise.address"
+              [(ngModel)]="entreprise.address"
+              class="p-3 bg-gray-50 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-gray-800 placeholder-gray-400 transition-all duration-300"
+              placeholder="Entrez l'adresse de l'entreprise"
+              required
+            ></textarea>
+            <span
+              *ngIf="entrepriseform.submitted && entrepriseform.controls['address']?.errors?.['required']"
+              class="text-red-500 text-sm"
+            >
+              L'adresse est obligatoire.
+            </span>
+          </div>
+        </div>
+
+        <!-- Colonne de droite -->
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label
+              for="phone_number"
               class="text-sm md:text-base font-medium text-gray-700"
               >Numéro de téléphone</label
             >
             <input
-              id="password"
-              type="password"
-              name="password"
-              class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-              placeholder="changer de password"
+              id="phone_number"
+              type="tel"
+              name="phone_number"
+              [value]="entreprise.phone_number"
+              [(ngModel)]="entreprise.phone_number"
+              class="p-3 bg-gray-50 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-gray-800 placeholder-gray-400 transition-all duration-300"
+              placeholder="Entrez le numéro de téléphone"
+              required
+            />
+            <span
+              *ngIf="entrepriseform.submitted && entrepriseform.controls['phone_number']?.errors?.['required']"
+              class="text-red-500 text-sm"
+            >
+              Le numéro de téléphone est obligatoire.
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label
+              for="email"
+              class="text-sm md:text-base font-medium text-gray-700"
+              >Email</label
+            >
+            <input
+              id="email"
+              type="email"
+              name="email"
+              [value]="entreprise.email"
+              [(ngModel)]="entreprise.email"
+              class="p-3 bg-gray-50 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-gray-800 placeholder-gray-400 transition-all duration-300"
+              placeholder="Entrez l'email de l'entreprise"
             />
           </div>
 
-          <button class="btn btn-primary mx-auto btn-lg" type="submit">
-            Modifier
+          <div class="flex flex-col gap-2">
+            <label
+              for="website"
+              class="text-sm md:text-base font-medium text-gray-700"
+              >Site web</label
+            >
+            <input
+              id="website"
+              type="url"
+              name="website"
+              [(ngModel)]="entreprise.website"
+              class="p-3 bg-gray-50 rounded-lg w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-gray-800 placeholder-gray-400 transition-all duration-300"
+              placeholder="Entrez l'URL du site web"
+            />
+          </div>
+        </div>
+
+        <!-- Bouton en bas du formulaire -->
+        <div class="col-span-1 md:col-span-2">
+          <button
+            class="btn btn-primary mx-auto btn-lg hover:bg-blue-600 hover:shadow-md transition-all duration-300"
+            type="submit"
+            [disabled]="entrepriseform.invalid"
+          >
+            Enregistrer les modifications
           </button>
-        </form>
-      </div>
-    </p-card>
-
-    <p-card header="photo" class="mt-10">
-      <div
-        class="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-10"
-      >
-        <img
-          alt="Avatar"
-          class="rounded-full w-24 h-24 md:w-36 md:h-36 border-2 border-gray-300"
-        />
-        <div class="flex flex-col gap-3">
-          <button class="btn btn-primary btn-outline">Changer la photo</button>
-          <button class="btn btn-warning">supprimer</button>
         </div>
-      </div>
-      <p class="text-xs md:text-sm font-semibold mt-3 text-center">
-        Ajouter votre photo. La taille recommandée est 256 x 256.
-      </p>
-    </p-card>
-  </div>
-
-  <div class="mt-10 overflow-auto">
-    <h1 class="text-xl md:text-2xl font-bold text-center">
-      Modifier votre profil
-    </h1>
-    <p-card header="Formulaire de profil" class="mt-5 shadow-md mx-auto w-full">
-      <form class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
-          <label
-            for="address"
-            class="text-sm md:text-base font-medium text-gray-700"
-            >Adresse</label
-          >
-          <input
-            id="address"
-            type="text"
-            name="address"
-            class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-            placeholder="Entrez votre adresse"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <label
-            for="phone_number"
-            class="text-sm md:text-base font-medium text-gray-700"
-            >Numéro de téléphone</label
-          >
-          <input
-            id="phone_number"
-            type="tel"
-            name="phone_number"
-            class="p-3 bg-gray-50 rounded-md w-full focus:ring focus:ring-indigo-300 shadow-md"
-            placeholder="Entrez votre numéro de téléphone"
-          />
-        </div>
-
-        <button class="btn btn-primary mx-auto btn-lg" type="submit">
-          Modifier
-        </button>
       </form>
     </p-card>
   </div>

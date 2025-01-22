@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit {
     ADMIN: [
       ...this.baseLinks,
       { name: 'Entreprises', href: '/entreprise', icon: 'pi pi-briefcase' },
-      { name: 'Poulaillers', href: '/poulaillers', icon: 'pi pi-egg' },
+      { name: 'Poulaillers', href: '/poulailler', icon: 'pi pi-egg' },
       { name: 'Production', href: '/production', icon: 'pi pi-box' },
       { name: 'Stocks', href: '/stocks', icon: 'pi pi-warehouse' },
       { name: 'Livraisons', href: '/livraisons', icon: 'pi pi-truck' },
@@ -57,7 +57,7 @@ export class SidebarComponent implements OnInit {
     ],
     ELEVEUR: [
       ...this.baseLinks,
-      { name: 'Poulaillers', href: '/poulaillers', icon: 'pi pi-egg' },
+      { name: 'Poulaillers', href: '/poulailler', icon: 'pi pi-egg' },
       { name: 'Production', href: '/production', icon: 'pi pi-box' },
       { name: 'Stocks', href: '/stocks', icon: 'pi pi-warehouse' },
     ],
@@ -113,5 +113,9 @@ export class SidebarComponent implements OnInit {
         }
       }
     );
+  }
+  logout(){
+    this.authService.logout();
+    
   }
 }

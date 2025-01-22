@@ -1,0 +1,162 @@
+<div class="container mx-auto p-8">
+  <!-- Header -->
+  <div
+    class="bg-primary-content shadow-2xl rounded-lg p-6 mb-8 flex justify-between items-center"
+  >
+    <div>
+      <h2 class="text-4xl font-bold text-white">Détails du Poulailler</h2>
+      <p class="text-gray-200 mt-2 text-lg">
+        Consultez les informations détaillées sur chaque poulailler.
+      </p>
+    </div>
+    <div class="flex space-x-4">
+      <label
+        for="addModal"
+        class="btn btn-outline btn-ghost text-white cursor-pointer"
+      >
+        Ajouter Poulailler
+      </label>
+    </div>
+  </div>
+
+  <!-- Formulaire de recherche -->
+  <div class="mb-4">
+    <input
+      type="text"
+      class="input input-bordered w-full"
+      placeholder="Rechercher un poulailler"
+      [(ngModel)]="searchTerm"
+      (input)="searchPoulailler()"
+    />
+  </div>
+
+  <!-- Tableau -->
+  <div
+    class="overflow-x-auto rounded-lg shadow-lg bg-white p-4 h-[calc(100vh-200px)] overflow-y-auto relative"
+  >
+    <table class="table w-full table-auto text-center text-gray-700">
+      <thead>
+        <tr class="bg-secondary text-white">
+          <th class="px-6 py-4 text-left font-semibold rounded-tl-lg">Nom</th>
+          <th class="px-6 py-4 text-left font-semibold">Capacité</th>
+          <th class="px-6 py-4 text-left font-semibold">Description</th>
+          <th class="px-6 py-4 text-left font-semibold">Entreprise</th>
+          <th class="px-6 py-4 text-left font-semibold rounded-tr-lg">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let poulailler of filteredPoulaillers"
+          class="hover:bg-base-100"
+        >
+          <td class="px-6 py-4 border-b border-gray-200 text-left">
+            {{ poulailler.nom }}
+          </td>
+          <td class="px-6 py-4 border-b border-gray-200 text-left">
+            {{ poulailler.capacite }} poules
+          </td>
+          <td class="px-6 py-4 border-b border-gray-200 text-left">
+            {{ poulailler.description }}
+          </td>
+          <td class="px-6 py-4 border-b border-gray-200 text-left">
+            {{ entreprise.name }}
+          </td>
+          <td class="px-6 py-4 border-b border-gray-200 text-left">
+            <div
+              class="flex flex-col md:flex-row gap-2 justify-center items-center"
+            >
+              <button class="btn btn-primary text-white border-none">
+                Modifier
+              </button>
+              <button
+                class="btn btn-outline bg-red-400 border-none hover:bg-red-700"
+              >
+                Supprimer
+              </button>
+              <div class="dropdown">
+                <div tabindex="0" role="button" class="btn m-1">Plus +</div>
+                <ul
+                  tabindex="0"
+                  class="dropdown-content menu bg-base-100 rounded-box z-[2] w-52 p-2 shadow"
+                >
+                  <li>
+                    <a
+                      [routerLink]="[
+                        '/dashboard/poulailler-lot',
+                        poulailler.id
+                      ]"
+                      >Voir les lots</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Ajouter Poulailler -->
+  <input type="checkbox" id="addModal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box relative">
+      <label for="addModal" class="btn btn-sm btn-circle absolute right-2 top-2"
+        >✕</label
+      >
+      <h2 class="text-2xl font-semibold mb-4">Ajouter un nouveau Poulailler</h2>
+      <form
+        #poulaillerForm="ngForm"
+        (ngSubmit)="onAddPoulailler(poulaillerForm.value)"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="nom" class="block text-gray-700"
+              >Nom du Poulailler</label
+            >
+            <input
+              id="nom"
+              type="text"
+              name="nom"
+              [(ngModel)]="poulailler.nom"
+              class="input input-bordered w-full"
+              placeholder="Nom du Poulailler"
+              aria-label="Nom du Poulailler"
+            />
+          </div>
+          <div>
+            <label for="capacite" class="block text-gray-700">Capacité</label>
+            <input
+              id="capacite"
+              type="number"
+              name="capacite"
+              [(ngModel)]="poulailler.capacite"
+              class="input input-bordered w-full"
+              placeholder="Capacité"
+              aria-label="Capacité"
+            />
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block text-gray-700"
+            >Description</label
+          >
+          <textarea
+            id="description"
+            class="textarea textarea-bordered w-full"
+            placeholder="Description"
+            [(ngModel)]="poulailler.description"
+            name="description"
+            aria-label="Description"
+          ></textarea>
+        </div>
+        <div class="modal-action">
+          <button class="btn btn-primary" type="submit">Ajouter</button>
+          <label for="addModal" class="btn">Annuler</label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
