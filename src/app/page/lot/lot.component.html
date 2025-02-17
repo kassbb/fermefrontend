@@ -20,49 +20,72 @@
   </div>
 
   <!-- Formulaire de recherche -->
-  <div class="relative mb-4">
-    <input
-      type="text"
-      class="input input-bordered w-full pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-      [placeholder]="''"
-      [(ngModel)]="searchTerm"
-      (input)="searchLots()"
-    />
-    <i
-      class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-    ></i>
+  <div class="relative mb-4 flex items-center gap-4">
+    <div>
+      <input
+        type="text"
+        class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+        [placeholder]="'chercher un lot'"
+        [(ngModel)]="searchTerm"
+        (input)="searchLots()"
+      />
+      <i
+        class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      ></i>
+    </div>
+    <div>
+      <input
+        type="date"
+        class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+        [placeholder]="'chercher par date'"
+        [(ngModel)]="datefilter"
+        (input)="searchLots()"
+      />
+      <i
+        class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      ></i>
+    </div>
   </div>
 
-  <!-- Tableau -->
   <div
-    class="overflow-x-auto rounded-lg shadow-lg bg-white p-4 h-[calc(100vh-200px)] overflow-y-auto"
+    class="overflow-x-auto rounded-lg shadow-lg bg-white p-4 h-[300px] overflow-y-auto"
   >
-    <table class="table w-full table-auto text-center text-gray-700">
+    <table class="table w-full table-auto text-center text-sm text-gray-700">
       <thead>
         <tr class="bg-secondary text-white">
-          <th class="px-4 py-2 text-left font-semibold rounded-tl-lg">Nom</th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th class="px-2 py-1 w-1/12 text-left font-semibold">Nom</th>
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Type
           </th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Nombre de volailles
           </th>
-          <th class="px-4 py-2 text-left font-semibold">État</th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th class="px-2 py-1 w-1/12 text-left font-semibold">État</th>
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Date de début
           </th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Date de fin
           </th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Description
           </th>
-          <th class="px-4 py-2 text-left font-semibold hidden md:table-cell">
+          <th
+            class="px-2 py-1 w-1/12 text-left font-semibold hidden md:table-cell"
+          >
             Poulailler
           </th>
-          <th class="px-4 py-2 text-left font-semibold rounded-tr-lg">
-            Actions
-          </th>
+          <th class="px-2 py-1 w-1/12 text-left font-semibold">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -70,22 +93,22 @@
           *ngFor="let lot of filteredLots"
           class="hover:bg-base-100 transition-all"
         >
-          <td class="px-4 py-2 border-b border-gray-200 text-left">
+          <td class="px-2 py-1 border-b border-gray-200 text-left">
             {{ lot.nom }}
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
             {{ lot.type }}
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
             {{ lot.nombre_volailles }}
           </td>
-          <td class="px-4 py-2 border-b border-gray-200 text-left">
+          <td class="px-2 py-1 border-b border-gray-200 text-left">
             <span
-              class="px-2 py-1 text-sm rounded-full"
+              class="px-2 py-1 text-xs rounded-full"
               [ngClass]="{
                 'bg-green-100 text-green-800': lot.active,
                 'bg-red-100 text-red-800': !lot.active
@@ -95,54 +118,58 @@
             </span>
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
             {{ lot.date_debut | date }}
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
             {{ lot.date_fin | date }}
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
             {{ lot.description }}
           </td>
           <td
-            class="px-4 py-2 border-b border-gray-200 text-left hidden md:table-cell"
+            class="px-2 py-1 border-b border-gray-200 text-left hidden md:table-cell"
           >
-            {{ lot.poulailler?.nom }}
+            {{ lot.poulailler }}
           </td>
-          <td class="px-4 py-2 border-b border-gray-200 text-left">
+          <td class="px-2 py-1 border-b border-gray-200 text-left">
             <div
-              class="flex flex-col md:flex-row gap-2 justify-center items-center"
+              class="flex flex-col md:flex-row gap-1 justify-center items-center"
             >
               <button
-                class="btn btn-primary text-white border-none hover:bg-primary/90 transition-all text-sm md:text-base"
+                class="btn btn-primary btn-sm text-white border-none hover:bg-primary/90 transition-all"
               >
-                <i class="pi pi-pencil mr-2"></i>
+                <i class="pi pi-pencil"></i>
               </button>
               <button
-                class="btn btn-outline bg-red-400 border-none hover:bg-red-700 transition-all text-sm md:text-base"
+                class="btn btn-outline btn-sm bg-red-400 border-none hover:bg-red-700 transition-all"
               >
                 <i class="pi pi-trash"></i>
               </button>
               <div class="dropdown dropdown-end">
-                <div
-                  tabindex="0"
-                  role="button"
-                  class="btn m-1 text-sm md:text-base"
-                >
+                <div tabindex="0" role="button" class="btn btn-sm m-1">
                   <i class="pi pi-ellipsis-v"></i>
                 </div>
                 <ul
                   tabindex="0"
                   class="dropdown-content menu bg-base-100 rounded-box z-[2] w-52 p-2 shadow"
                 >
+                <li>
+                    <a (click)="selectLot(lot.id)">
+                      <i class="fas fa-list mr-2"></i>
+                      Voir les productions
+                    </a>
+                  </li>
+
                   <li>
                     <a (click)="actver(lot.id)"
-                      ><i class="fas fa-info-circle mr-2"></i> Détails</a
+                      ><i class="fas fa-info-circle mr-2"></i
+                      >{{ !lot.active ? "activer" : "desactiver" }}</a
                     >
                   </li>
                 </ul>
@@ -271,4 +298,5 @@
       </form>
     </div>
   </div>
+  <app-production [selectedLotId]="selectedLotId"></app-production>
 </div>

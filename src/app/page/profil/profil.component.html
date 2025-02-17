@@ -1,7 +1,11 @@
-<div class="p-6 md:mx-5 md:shadow-lg md:rounded-xl bg-gray-50 md:bg-white min-h-screen">
+<div
+  class="p-6 md:mx-5 md:shadow-lg md:rounded-xl bg-gray-50 md:bg-white min-h-screen"
+>
   <!-- Section d'entête -->
   <div class="mt-5 text-center">
-    <h1 class="text-3xl font-extrabold text-gray-800">Espace Profil</h1>
+    <h1 class="text-4xl font-bold text-gray-900 tracking-tight">
+      Espace Profil
+    </h1>
     <p class="text-md font-medium text-gray-500 mt-2">
       Personnalisez vos informations et paramètres
     </p>
@@ -10,37 +14,39 @@
   <!-- Grille pour gérer le mot de passe et la photo -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
     <!-- Carte pour modifier le mot de passe -->
-    <p-card class="shadow-xl rounded-xl">
-      <div class="flex flex-col items-center gap-6">
-        <form
-          (ngSubmit)="onReset(password)"
-          #password="ngForm"
-          class="flex flex-col gap-6 w-full px-4"
+    <div class="shadow-lg rounded-lg p-6 bg-white">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">
+        Modifier le mot de passe
+      </h2>
+      <form
+        (ngSubmit)="onReset(password)"
+        #password="ngForm"
+        class="flex flex-col gap-6"
+      >
+        <div class="flex flex-col gap-2">
+          <label for="password" class="text-base font-medium text-gray-700"
+            >Nouveau mot de passe</label
+          >
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="user.password"
+            name="password"
+            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-500 shadow-sm"
+            placeholder="Entrez un nouveau mot de passe"
+          />
+        </div>
+        <button
+          class="w-full py-3 px-6 text-white bg-secondary rounded-lg font-medium shadow-md hover:bg-primary-content focus:outline-none focus:ring focus:ring-indigo-300"
         >
-          <div class="flex flex-col gap-3">
-            <label
-              for="password"
-              class="text-base font-semibold text-gray-600"
-              >Nouveau mot de passe</label
-            >
-            <input
-              id="password"
-              type="password"
-              [(ngModel)]="user.password"
-              name="password"
-              class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
-              placeholder="Entrez un nouveau mot de passe"
-            />
-          </div>
-          <button class="btn btn-primary w-full" type="submit">
-            Mettre à jour
-          </button>
-        </form>
-      </div>
-    </p-card>
+          Mettre à jour
+        </button>
+      </form>
+    </div>
 
     <!-- Carte pour gérer la photo -->
-    <p-card  class="shadow-xl rounded-xl">
+    <div class="shadow-lg rounded-lg p-6 bg-white">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Photo de Profil</h2>
       <div class="flex flex-col items-center gap-6">
         <img
           [src]="profile.photo"
@@ -48,36 +54,37 @@
           class="rounded-full w-32 h-32 md:w-40 md:h-40 border-4 border-gray-200 shadow-md"
         />
         <div class="flex flex-col gap-3 w-full">
-          <button class="btn btn-primary btn-outline w-full">
+          <button
+            class="py-3 px-6 border border-indigo-500 text-indigo-500 bg-white rounded-lg font-medium shadow-md hover:bg-indigo-100 focus:outline-none focus:ring focus:ring-indigo-300"
+          >
             Changer la photo
           </button>
-          <button class="btn btn-warning w-full">Supprimer</button>
+          <button
+            class="py-3 px-6 text-white bg-red-500 rounded-lg font-medium shadow-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
+          >
+            Supprimer
+          </button>
         </div>
         <p class="text-sm text-gray-500 text-center font-medium">
           Taille recommandée : 256 x 256 pixels.
         </p>
       </div>
-    </p-card>
+    </div>
   </div>
 
   <!-- Formulaire pour modifier les informations -->
   <div class="mt-10">
-    <h2 class="text-2xl font-bold text-gray-800 text-center">
+    <h2 class="text-2xl font-bold text-gray-900 text-center">
       Mise à Jour du Profil
     </h2>
-    <p-card
-      header="Informations Personnelles"
-      class="mt-6 shadow-xl rounded-xl mx-auto w-full md:w-2/3"
-    >
+    <div class="mt-6 shadow-lg rounded-lg bg-white p-6 mx-auto w-full md:w-2/3">
       <form
         (ngSubmit)="onSubmit()"
         #profileForm="ngForm"
-        class="flex flex-col gap-6 px-4"
+        class="flex flex-col gap-6"
       >
-        <div class="flex flex-col gap-3">
-          <label
-            for="address"
-            class="text-base font-semibold text-gray-600"
+        <div class="flex flex-col gap-2">
+          <label for="address" class="text-base font-medium text-gray-700"
             >Adresse</label
           >
           <input
@@ -85,15 +92,13 @@
             type="text"
             [(ngModel)]="profile.address"
             name="address"
-            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
+            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-500 shadow-sm"
             placeholder="Entrez votre adresse complète"
           />
         </div>
 
-        <div class="flex flex-col gap-3">
-          <label
-            for="phone_number"
-            class="text-base font-semibold text-gray-600"
+        <div class="flex flex-col gap-2">
+          <label for="phone_number" class="text-base font-medium text-gray-700"
             >Numéro de Téléphone</label
           >
           <input
@@ -101,15 +106,17 @@
             type="tel"
             [(ngModel)]="profile.phone_number"
             name="phone_number"
-            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-400 shadow-sm"
+            class="p-3 bg-gray-100 rounded-lg w-full focus:ring focus:ring-indigo-500 shadow-sm"
             placeholder="Entrez votre numéro"
           />
         </div>
 
-        <button class="btn btn-primary w-full btn-lg" type="submit">
+        <button
+          class="w-full py-3 px-6 text-white bg-success-content rounded-lg font-medium shadow-md hover:bg-transparent hover:text-black focus:outline-none focus:ring focus:ring-indigo-300"
+        >
           Sauvegarder
         </button>
       </form>
-    </p-card>
+    </div>
   </div>
 </div>

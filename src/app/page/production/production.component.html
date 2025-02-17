@@ -1,0 +1,144 @@
+<div class="card bg-base-100 shadow-xl mt-8">
+  <div class="card-body">
+    <!-- En-tête -->
+    <div class="bg-primary-content shadow-lg rounded-lg p-4 mb-4 flex justify-between items-center border border-primary/20">
+      <div class="flex space-x-4">
+        <label
+          for="addProductionModal"
+          class="btn btn-secondary text-white cursor-pointer hover:bg-white/10 transition-all"
+        >
+          <i class="fas fa-plus mr-2"></i> Ajouter Production
+        </label>
+      </div>
+    </div>
+
+    <!-- Formulaire de recherche -->
+    <div class="relative mb-6 flex items-center gap-4">
+      <div class="relative">
+        <input
+          type="text"
+          class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+          placeholder="Chercher une production"
+        />
+        <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      </div>
+      <div class="relative">
+        <input
+          type="date"
+          class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+          placeholder="Chercher par date"
+        />
+        <i class="pi pi-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div *ngIf="selectedLotId">
+      <h3>{{ production_title }} pour le lot {{ selectedLotId }}</h3>
+      <table class="table w-full table-auto text-center text-sm text-gray-700">
+        <thead>
+          <tr class="bg-secondary text-white">
+            <th class="px-2 py-1 text-left font-semibold">Date</th>
+            <th class="px-2 py-1 text-left font-semibold">Heure</th>
+            <th class="px-2 py-1 text-left font-semibold">Type d'œuf</th>
+            <th class="px-2 py-1 text-left font-semibold">Quantité</th>
+            <th class="px-2 py-1 text-left font-semibold">Poids</th>
+            <th class="px-2 py-1 text-left font-semibold">Notes</th>
+            <th class="px-2 py-1 text-left font-semibold">Actions</th> <!-- Nouvelle colonne pour les actions -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let production of productions" class="hover:bg-gray-50 transition-all">
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.date }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.heure }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.type_oeuf }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.quantite_oeufs_produits }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.poids }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">{{ production.notes }}</td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              <!-- Boutons d'actions -->
+              <div class="flex space-x-2">
+                <button class="btn btn-sm btn-warning">Modifier</button>
+                <button class="btn btn-sm btn-error">Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!selectedLotId">
+      <p>Aucun lot sélectionné. Veuillez sélectionner un lot pour afficher les productions.</p>
+    </div>
+
+    <!-- Modal Ajouter Production -->
+    <input type="checkbox" id="addProductionModal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box relative max-w-md bg-white shadow-2xl rounded-lg">
+        <label for="addProductionModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+        <h2 class="text-2xl font-semibold mb-4">Ajouter une nouvelle Production</h2>
+        <form [formGroup]="productionForm" (ngSubmit)="onAddProduction()">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="date" class="block text-gray-700">Date</label>
+              <input
+                formControlName="date"
+                type="date"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+            </div>
+            <div>
+              <label for="heure" class="block text-gray-700">Heure</label>
+              <input
+                formControlName="heure"
+                type="time"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+            </div>
+            <div>
+              <label for="type_oeuf" class="block text-gray-700">Type d'œuf</label>
+              <select
+                formControlName="type_oeuf"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              >
+                <option value="GRAND" selected>GRAND</option>
+                <option value="PETIT">PETIT</option>
+              </select>
+            </div>
+            <div>
+              <label for="quantite_oeufs_produits" class="block text-gray-700">Quantité</label>
+              <input
+                type="number"
+                formControlName="quantite_oeufs_produits"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+              @if (productionForm.get('quantite_oeufs_produits')?.valid || productionForm.get('quantite_oeufs_produits')?.touched) {
+              <small class="text-red-500">La quantité doit être supérieure à 0.</small>
+              }
+            </div>
+            <div>
+              <label for="poids" class="block text-gray-700">Poids</label>
+              <input
+                formControlName="poids"
+                type="number"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+            </div>
+            <div>
+              <label for="notes" class="block text-gray-700">Notes</label>
+              <textarea
+                formControlName="notes"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              ></textarea>
+            </div>
+            <input type="hidden" formControlName="lot" [value]="selectedLotId" />
+            <input type="hidden" formControlName="user_creation" [value]="user.id" />
+          </div>
+          <div class="modal-action mt-4">
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+            <button class="btn btn-error" type="button">Annuler</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@
     class="bg-primary-content shadow-2xl rounded-lg p-6 mb-8 flex justify-between items-center"
   >
     <div>
-      <h2 class="text-4xl font-bold text-white">Détails du Poulailler</h2>
+      <h2 class="text-4xl font-bold text-white">{{ title }}</h2>
       <p class="text-gray-200 mt-2 text-lg">
         Consultez les informations détaillées sur chaque poulailler.
       </p>
@@ -47,6 +47,12 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="filteredPoulaillers.length === 0">
+          <td class="px-6 py-4 border-b border-gray-200 text-left" colspan="5">
+            Aucun poulailler trouvé
+          </td>
+        </tr>
+
         <tr
           *ngFor="let poulailler of filteredPoulaillers"
           class="hover:bg-base-100"
@@ -67,16 +73,23 @@
             <div
               class="flex flex-col md:flex-row gap-2 justify-center items-center"
             >
+              <!-- Bouton Modifier avec icône -->
               <button class="btn btn-primary text-white border-none">
-                Modifier
+                <i class="pi pi-pencil"></i>
               </button>
+
+              <!-- Bouton Supprimer avec icône -->
               <button
                 class="btn btn-outline bg-red-400 border-none hover:bg-red-700"
               >
-                Supprimer
+                <i class="pi pi-trash"></i>
               </button>
-              <div class="dropdown">
-                <div tabindex="0" role="button" class="btn m-1">Plus +</div>
+
+              <!-- Menu déroulant avec icône -->
+              <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn m-1">
+                  <i class="pi pi-ellipsis-v"></i>
+                </div>
                 <ul
                   tabindex="0"
                   class="dropdown-content menu bg-base-100 rounded-box z-[2] w-52 p-2 shadow"
@@ -87,8 +100,19 @@
                         '/dashboard/poulailler-lot',
                         poulailler.id
                       ]"
-                      >Voir les lots</a
                     >
+                      <i class="pi pi-list mr-2"></i> Voir les lots
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      [routerLink]="[
+                        '/dashboard/recolte',
+                        poulailler.id
+                      ]"
+                    >
+                      <i class="pi pi-list mr-2"></i> Voir les recoltes
+                    </a>
                   </li>
                 </ul>
               </div>

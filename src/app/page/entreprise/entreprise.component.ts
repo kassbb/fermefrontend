@@ -39,7 +39,7 @@ export class EntrepriseComponent implements OnInit {
     this.entrepriseservice.getMyEntreprise().subscribe({
       next: (response: Entreprise[]) => {
         this.entreprise = response[0];
-        console.log('Entreprise:', this.entreprise);
+        
       },
       error: (err) => {
         console.error('Erreur de connexion:', err);
@@ -58,8 +58,8 @@ export class EntrepriseComponent implements OnInit {
         .updateEntreprise(this.entreprise.id, updatedEntreprise)
         .subscribe({
           next: (response) => {
-            console.log('Entreprise mise à jour avec succès:', response);
-            this.entreprise = response; // Mettre à jour les données affichées
+           
+            this.entreprise = response; 
             Swal.fire(
               'Succès',
               'Entreprise mise à jour avec succès',

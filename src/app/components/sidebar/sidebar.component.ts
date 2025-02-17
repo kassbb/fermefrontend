@@ -5,11 +5,14 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { UsergroupeService } from '../../service/usergroupe.service';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 interface Link {
   name: string;
-  href: string;
-  icon: string;
+  href?: string;
+  icon?: string;
+  children?: Link[];
+  isOpen?: boolean;
 }
 
 export interface UserGroupResponse {
@@ -19,7 +22,13 @@ export interface UserGroupResponse {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [AvatarModule, OverlayBadgeModule, RouterLink, RouterLinkActive],
+  imports: [
+    AvatarModule,
+    OverlayBadgeModule,
+    RouterLink,
+    RouterLinkActive,
+    CommonModule,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
@@ -41,25 +50,38 @@ export class SidebarComponent implements OnInit {
   allLinks: { [key: string]: Link[] } = {
     ADMIN: [
       ...this.baseLinks,
-      { name: 'Entreprises', href: '/entreprise', icon: 'pi pi-briefcase' },
+      { name: 'Entreprises', href: '/entreprise', icon: 'pi pi-building' },
       { name: 'Poulaillers', href: '/poulailler', icon: 'pi pi-egg' },
       { name: 'Production', href: '/production', icon: 'pi pi-box' },
-      { name: 'Stocks', href: '/stocks', icon: 'pi pi-warehouse' },
+      {
+        name: 'Stocks',
+        icon: 'pi pi-warehouse',
+        href: '/stock',
+      },
       { name: 'Livraisons', href: '/livraisons', icon: 'pi pi-truck' },
       { name: 'Employés', href: '/employes', icon: 'pi pi-id-card' },
       { name: 'Paramètres', href: '/parametres', icon: 'pi pi-cog' },
     ],
     COMTABLE: [
       ...this.baseLinks,
-      { name: 'Entreprises', href: '/entreprise', icon: 'pi pi-briefcase' },
+      { name: 'Entreprises', href: '/entreprise', icon: 'pi pi-building' },
       { name: 'Production', href: '/production', icon: 'pi pi-box' },
-      { name: 'Stocks', href: '/stocks', icon: 'pi pi-warehouse' },
+      {
+        name: 'Stocks',
+        icon: 'pi pi-warehouse',
+        href: '/stock',
+      },
     ],
+
     ELEVEUR: [
       ...this.baseLinks,
       { name: 'Poulaillers', href: '/poulailler', icon: 'pi pi-egg' },
       { name: 'Production', href: '/production', icon: 'pi pi-box' },
-      { name: 'Stocks', href: '/stocks', icon: 'pi pi-warehouse' },
+      {
+        name: 'Stocks',
+        icon: 'pi pi-warehouse',
+        href: '/stock',
+      },
     ],
     LIVREUR: [
       ...this.baseLinks,
@@ -92,8 +114,7 @@ export class SidebarComponent implements OnInit {
   getRole() {
     this.groupe.getGroups().subscribe(
       (data: UserGroupResponse) => {
-        console.log('User groups:', data.user);
-        this.activeRoles = data.groups || []; 
+        this.activeRoles = data.groups || [];
         this.user = data.user;
         // Définit les rôles ou un tableau vide
         if (this.activeRoles.length === 0) {
@@ -114,8 +135,12 @@ export class SidebarComponent implements OnInit {
       }
     );
   }
-  logout(){
+  logout() {
     this.authService.logout();
-    
+  }
+  toggleSubMenu(link: Link): void {
+    if (link.children) {
+      link.isOpen = !link.isOpen; // Bascule l'état isOpen
+    }
   }
 }

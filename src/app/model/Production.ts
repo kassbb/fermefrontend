@@ -28,6 +28,10 @@ export const TypeVolaillesLabels: { [key in TypeVolailles]: string } = {
   [TypeVolailles.CHAIR]: 'Poule de Chair',
 };
 
+export enum TypeOeuf {
+  PETIT = 'PETIT',
+  GRAND = 'GRAND',
+}
 export interface Entreprise {
   id: number;
   name: string;
@@ -48,3 +52,16 @@ export interface UserProfile {
   entreprise: number;
 }
 export const role = ['ADMIN', 'CONTABLE', 'ELEVEUR', 'LIVREUR'];
+
+export interface Production {
+  id: number;
+  date: string;
+  heure: string;
+  type_oeuf: string;
+  quantite_oeufs_produits: number;
+  poids: string;
+  notes?: string;
+  lot: number;
+  user_creation: number;
+  entreprise: number;
+}

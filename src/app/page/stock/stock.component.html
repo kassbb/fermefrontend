@@ -1,0 +1,157 @@
+<div class="p-4">
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title text-2xl mb-4">Gestion du Stock</h2>
+
+      <!-- Formulaire -->
+      <div class="bg-base-200 p-4 rounded-box mb-6">
+        <h3 class="text-lg font-semibold mb-3">Ajouter un article</h3>
+        <form
+          (ngSubmit)="ajouterArticle()"
+          class="grid grid-cols-1 md:grid-cols-3 gap-4"
+        >
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Catégorie</span>
+            </label>
+            <select
+              class="select select-bordered"
+              [(ngModel)]="nouvelArticle.categorie"
+              name="categorie"
+            >
+              <option value="ALVEOLE">Alvéole</option>
+              <option value="ABREUVOIR">Abreuvoir</option>
+              <option value="MANGOIRE">Mangeoire</option>
+              <option value="AUTRE">Autre</option>
+            </select>
+          </div>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Nom</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Nom de l'article"
+              class="input input-bordered"
+              [(ngModel)]="nouvelArticle.nom"
+              name="nom"
+            />
+          </div>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Quantité</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Quantité"
+              class="input input-bordered"
+              [(ngModel)]="nouvelArticle.quantite"
+              name="quantite"
+            />
+          </div>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Unité</span>
+            </label>
+            <select
+              class="select select-bordered"
+              [(ngModel)]="nouvelArticle.unite_mesure"
+              name="unite_mesure"
+            >
+              <option value="PIECE">Pièce</option>
+              <option value="LITRE">Litre</option>
+              <option value="KG">Kilogramme</option>
+            </select>
+          </div>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Capacité max</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Capacité maximale"
+              class="input input-bordered"
+              [(ngModel)]="nouvelArticle.capacite_max"
+              name="capacite_max"
+            />
+          </div>
+
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Seuil d'alerte</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Seuil d'alerte"
+              class="input input-bordered"
+              [(ngModel)]="nouvelArticle.seuil_alerte"
+              name="seuil_alerte"
+            />
+          </div>
+
+          <div class="md:col-span-3">
+            <button type="submit" class="btn btn-primary w-full">
+              Ajouter au stock
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tableau -->
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <thead>
+            <tr>
+              <th>Catégorie</th>
+              <th>Nom</th>
+              <th>Quantité</th>
+              <th>Unité</th>
+              <th>Capacité max</th>
+              <th>Seuil</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let article of stocks"
+              [class.text-error]="article.quantite <= article.seuil_alerte"
+            >
+              <td>{{ article.categorie }}</td>
+              <td>{{ article.nom }}</td>
+              <td>{{ article.quantite }}</td>
+              <td>{{ article.unite_mesure }}</td>
+              <td>{{ article.capacite_max }}</td>
+              <td>{{ article.seuil_alerte }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    class="btn btn-circle btn-sm btn-success"
+                    (click)="ajouterQuantite(article)"
+                  >
+                    <span class="text-xl">+</span>
+                  </button>
+                  <button
+                    class="btn btn-circle btn-sm btn-warning"
+                    (click)="retirerQuantite(article)"
+                  >
+                    <span class="text-xl">-</span>
+                  </button>
+                  <button
+                    class="btn btn-circle btn-sm btn-error"
+                    (click)="supprimerStock(article.id!)"
+                  >
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -37,7 +37,7 @@ export class AuthService {
 
   // Récupère le token d'accès
   getAccessToken(): string | null {
-    console.log(localStorage.getItem('accessToken'));
+   
     return localStorage.getItem('accessToken');
   }
 

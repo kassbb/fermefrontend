@@ -17,9 +17,10 @@ import { PoulaillerserviceService } from '../../service/poulaillerservice.servic
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProductionComponent } from '../production/production.component';
 @Component({
   selector: 'app-lot',
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, ProductionComponent],
   templateUrl: './lot.component.html',
   styleUrl: './lot.component.css',
 })
@@ -30,7 +31,9 @@ export class LotComponent {
   lots: Lot[] = [];
   filteredLots: Lot[] = [];
   poulaillers: Poulailler[] = [];
+  selectedLotId: number | undefined;
   lot: Lot = {
+    id: 0,
     nom: '',
     type: TypeVolailles.PONDEUSE,
     nombre_volailles: 0,
@@ -46,12 +49,17 @@ export class LotComponent {
 
   home: MenuItem | undefined;
   types = Object.values(TypeVolailles);
+  datefilter: Date;
   constructor(
     private lotService: LotServiceService,
     private poulaillerService: PoulaillerserviceService
   ) {}
   getTypeLabel(type: TypeVolailles): string {
     return TypeVolaillesLabels[type];
+  }
+  selectLot(id: number) {
+    this.selectedLotId = id;
+    console.log('Lot sélectionné:', this.selectedLotId);
   }
 
   ngOnInit() {
@@ -73,7 +81,7 @@ export class LotComponent {
       next: (response) => {
         this.lots = response;
         this.filteredLots = response;
-        console.log('Lots:', this.lots);
+        
       },
       error: (err) => {
         console.error('Erreur de connexion:', err);
@@ -100,6 +108,11 @@ export class LotComponent {
     } else {
       this.filteredLots = this.lots;
     }
+    if (this.datefilter) {
+      this.filteredLots = this.filteredLots.filter((lot) =>
+        lot.date_debut.includes(this.datefilter.toISOString().split('T')[0])
+      );
+    }
   }
 
   onAddLot(formValue: any) {
@@ -117,7 +130,7 @@ export class LotComponent {
       },
     });
   }
-  actver(id:number){
+  actver(id: number) {
     this.lotService.actver(id).subscribe({
       next: (response) => {
         Swal.fire('Lot activé avec succès', '', 'success');

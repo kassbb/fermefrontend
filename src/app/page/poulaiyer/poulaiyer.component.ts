@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Entreprise, Poulailler } from '../../model/Production';
 import { EntrepriseService } from '../../service/entreprise.service';
 import { PoulaillerserviceService } from '../../service/poulaillerservice.service';
@@ -23,6 +23,7 @@ export class PoulaiyerComponent {
   poulaillers: Poulailler[] = [];
   poulailler: any = {};
   entreprise: any = {};
+  @Input()title: string = 'Détails du Poulailler';
   items: MenuItem[] = [
     {
       label: 'Options',

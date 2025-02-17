@@ -1,0 +1,167 @@
+<div class="card bg-base-100 shadow-xl mt-8">
+  <div class="card-body">
+    <!-- En-tête -->
+    <div
+      class="bg-primary-content shadow-lg rounded-lg p-4 mb-4 flex justify-between items-center border border-primary/20"
+    >
+      <div class="flex space-x-4">
+        <label
+          for="addProductionModal"
+          class="btn btn-secondary text-white cursor-pointer hover:bg-white/10 transition-all"
+        >
+          <i class="fas fa-plus mr-2"></i> Ajouter une production
+        </label>
+      </div>
+      <div>
+        <button class="btn btn-secondary" (click)="trouverAlviol(id)">
+          Trouver un alvéole
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulaire de recherche -->
+    <div class="relative mb-6 flex items-center gap-4">
+      <div class="relative">
+        <input
+          type="text"
+          class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+          placeholder="Chercher une production"
+        />
+        <i
+          class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+        ></i>
+      </div>
+      <div class="relative">
+        <input
+          type="date"
+          class="input input-bordered w-[200px] pl-10 focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+          placeholder="Chercher par date"
+        />
+        <i
+          class="pi pi-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+        ></i>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div>
+      <h3>pour le lot</h3>
+      <table class="table w-full table-auto text-center text-sm text-gray-700">
+        <thead>
+          <tr class="bg-secondary text-white">
+            <th class="px-2 py-1 text-left font-semibold">Capacité Max</th>
+            <th class="px-2 py-1 text-left font-semibold">Nombre d'oeufs</th>
+            <th class="px-2 py-1 text-left font-semibold">Date de creation</th>
+            <th class="px-2 py-1 text-left font-semibold">
+              Date de mise à jour
+            </th>
+            <th class="px-2 py-1 text-left font-semibold">Poulailler</th>
+
+            <th class="px-2 py-1 text-left font-semibold">Actions</th>
+            <!-- Nouvelle colonne pour les actions -->
+          </tr>
+        </thead>
+        <tbody>
+          @for (alveole of alveoles; track alveole.id) {
+          <tr class="hover:bg-gray-50 transition-all">
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              {{ alveole.capacite_max }}
+            </td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              {{ alveole.nombre_oeufs }}
+            </td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              {{ alveole.date_creation | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              {{ alveole.date_mise_a_jour | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              {{ alveole.poulailler }}
+            </td>
+
+            <td class="px-2 py-1 border-b border-gray-200 text-left">
+              <div class="flex space-x-2">
+                <button
+                  class="btn btn-sm btn-warning"
+                  (click)="getaleviole(alveole)"
+                >
+                  Modifier
+                </button>
+
+                <button
+                  class="btn btn-sm btn-error"
+                  (click)="supprimerAlveole(alveole.id)"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 text-center text-secondary-content">
+      @if (alveoles.length === 0) {
+      <p>Aucun alvéole disponible</p>
+      }
+    </div>
+
+    <!-- Modal Ajouter Production -->
+
+    <input type="checkbox" id="addProductionModal" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box relative max-w-md bg-white shadow-2xl rounded-lg">
+        <label
+          for="addProductionModal"
+          class="btn btn-sm btn-circle absolute right-2 top-2"
+          onclick="modal"
+          >✕</label
+        >
+        <h2 class="text-2xl font-semibold mb-4">
+          Ajouter une nouvelle Production
+        </h2>
+        <form [formGroup]="alveoleForm" (ngSubmit)="onSubmit()">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-group">
+              <label for="stock">Stock</label>
+              <select
+                formControlName="stock"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              >
+                <option value="">Sélectionner un stock</option>
+                <option *ngFor="let s of stock" [value]="s.id">
+                  {{ s.nom }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="capacite_max">Capacite Max</label>
+              <input
+                type="text"
+                formControlName="capacite_max"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+            </div>
+            <div class="form-group">
+              <label for="nombre_oeufs">Nombre d'oeufs</label>
+              <input
+                type="text"
+                formControlName="nombre_oeufs"
+                class="input input-bordered w-full focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+              />
+            </div>
+          </div>
+          <div class="modal-action mt-4">
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+
+            <button class="btn btn-error" type="button">Annuler</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

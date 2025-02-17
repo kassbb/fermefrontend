@@ -18,6 +18,6 @@ export class LotServiceService {
     return this.http.post<Lot>(`${this.apiUrl}/`, lot);
   }
   actver(id: number): Observable<Lot> {
-    return this.http.get<Lot>(`${this.apiUrl}/${id}/active-desactive/`);
+    return this.http.post<Lot>(`${this.apiUrl}/${id}/active-desactive/`, {});
   }
 }

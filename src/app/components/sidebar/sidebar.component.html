@@ -5,59 +5,89 @@
   <div
     class="flex items-center justify-between p-5 bg-primary text-primary-content shadow-md"
   >
-    <div class="flex items-center">
-      <span class="text-lg md:text-xl font-bold tracking-wide">
-        Ferme Dashboard
-      </span>
+    <div class="flex items-center space-x-3">
+      <i class="pi pi-dashboard text-2xl"></i>
+      <span class="text-xl font-bold tracking-wide"> Ferme Dashboard </span>
     </div>
+    <button class="btn btn-sm btn-outline btn-accent">Aide</button>
   </div>
 
   <!-- Profil utilisateur -->
   <div
-    class="flex flex-col items-center justify-center p-6 border-b border-base-300 bg-base-100"
+    class="flex flex-col items-center justify-center p-6 border-b border-base-300 bg-base-100 shadow-md"
   >
-    <img
-      src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-      alt="Avatar"
-      class="rounded-full w-24 h-24 border-4 border-primary shadow-lg"
-    />
+    <div class="avatar">
+      <div
+        class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 shadow-lg"
+      >
+        <img
+          src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          alt="Avatar"
+        />
+      </div>
+    </div>
     <div class="text-center mt-4">
-      <h1 class="text-lg md:text-xl font-semibold text-primary">{{ user }}</h1>
-      <p class="text-sm md:text-base text-base-content/70 mt-1">
+      <h1 class="text-xl font-semibold text-primary">{{ user }}</h1>
+      <p class="text-sm text-base-content/70 mt-1">
         {{ activeRoles.join(", ") }}
       </p>
     </div>
   </div>
 
   <!-- Menu avec liens -->
-  <div class="flex flex-col items-start py-4 px-6 space-y-1 h-auto">
-    <ul class="w-full">
+  <div class="flex flex-col py-6 px-4 space-y-2 bg-base-200 flex-grow">
+    <ul class="menu menu-compact menu-rounded w-full">
       @for (link of links; track $index) {
-      <li
-        class="w-full p-3 rounded-lg hover:bg-primary hover:text-primary-content transition-all duration-300 cursor-pointer flex items-center space-x-3 shadow-white justify-center"
-      >
-        <i [class]="link.icon" class="text-lg"></i>
+      <li>
         <a
-          [routerLink]="'/dashboard/' + link.href"
-          routerLinkActive="font-bold bg-primary/20 text-primary"
-          class="text-base-content w-full mx-auto"
+          [routerLink]="link.href ? '/dashboard/' + link.href : null"
+          routerLinkActive="active"
+          class="flex items-center space-x-3"
         >
-          {{ link.name }}
+          <i [class]="link.icon" class="text-lg"></i>
+          <span>{{ link.name }}</span>
+
+          @if (link.children) {
+          <i
+            [class]="link.isOpen ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+            class="ml-auto text-sm"
+          ></i>
+          }
         </a>
+        @if (link.children && link.isOpen) {
+          <ul class="pl-4 submenu" [class.open]="link.isOpen">
+            @for (child of link.children; track $index) {
+            <li>
+              <a
+                [routerLink]="'/dashboard/' + child.href"
+                routerLinkActive="active"
+              >
+              <i [class]="link.icon" class="text-md"></i>
+                {{ child.name }}
+              </a>
+            </li>
+            }
+          </ul>
+          }
       </li>
       }
+    
     </ul>
   </div>
-  <div>
-    <!-- logout -->
-    <button class="btn btn-primary w-full" (click)="logout()">
-      deconnexion
+
+  <!-- Bouton de déconnexion -->
+  <div class="p-6 bg-base-100 shadow-inner">
+    <button
+      class="btn btn-primary btn-block shadow-lg hover:btn-secondary"
+      (click)="logout()"
+    >
+      Déconnexion
     </button>
   </div>
 
   <!-- Footer -->
   <div
-    class="mt-auto border-t border-base-300 p-4 text-center text-sm text-base-content/60"
+    class="mt-auto border-t border-base-300 p-4 text-center text-sm bg-base-100 text-base-content/60"
   >
     © 2025 Ferme. Tous droits réservés.
   </div>

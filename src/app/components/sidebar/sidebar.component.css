@@ -15,3 +15,14 @@ li {
 a {
   text-decoration: none;
 }
+.submenu {
+  max-height: 0; /* Hauteur initiale (fermé) */
+  overflow: hidden; /* Cache le contenu qui dépasse */
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out; /* Animation fluide */
+  opacity: 0; /* Opacité initiale (fermé) */
+}
+
+.submenu.open {
+  max-height: 200px; /* Hauteur maximale (ouvert) */
+  opacity: 1; /* Opacité maximale (ouvert) */
+}
